@@ -8,14 +8,16 @@ using MediatR;
 
 namespace GtMotive.Estimate.Microservice.Api.UseCases.Rentals
 {
-    public class GetRentalsHandler(
+    public class GetActiveRentalsHandler(
         IRentalRepository repository,
         IMapper mapper)
-        : IRequestHandler<GetRentalsRequest, IEnumerable<RentalDto>>
+        : IRequestHandler<GetActiveRentalsRequest, IEnumerable<RentalDto>>
     {
-        public async Task<IEnumerable<RentalDto>> Handle(GetRentalsRequest request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<RentalDto>> Handle(
+            GetActiveRentalsRequest request,
+            CancellationToken cancellationToken)
         {
-            var rentals = await repository.GetAll(cancellationToken);
+            var rentals = await repository.GetAllActive(cancellationToken);
             return mapper.Map<IEnumerable<RentalDto>>(rentals);
         }
     }

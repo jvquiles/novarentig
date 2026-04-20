@@ -13,7 +13,9 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases.Vehicles
         IMapper mapper)
         : IRequestHandler<GetVehiclesRequest, IEnumerable<VehicleDto>>
     {
-        public async Task<IEnumerable<VehicleDto>> Handle(GetVehiclesRequest request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<VehicleDto>> Handle(
+            GetVehiclesRequest request,
+            CancellationToken cancellationToken)
         {
             var vehicles = await repository.GetAll(cancellationToken);
             return mapper.Map<IEnumerable<VehicleDto>>(vehicles);

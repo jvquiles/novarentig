@@ -23,7 +23,7 @@ namespace GtMotive.Estimate.Microservice.Domain.Entities
             }
 
             Id = Guid.CreateVersion7();
-            VIN = vin;
+            Vin = vin;
             ManufacturedAt = manufacturedAt;
         }
 
@@ -35,7 +35,7 @@ namespace GtMotive.Estimate.Microservice.Domain.Entities
         /// <summary>
         /// Gets the vehicle information number associated with this instance.
         /// </summary>
-        public string VIN { get; init; }
+        public string Vin { get; init; }
 
         /// <summary>
         /// Gets the date and time when the item was manufactured.

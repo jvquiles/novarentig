@@ -18,7 +18,7 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
         {
             var command = new AddVehicleCommand()
             {
-                VIN = request.VIN,
+                Vin = request.Vin,
                 ManufacturedAt = request.ManufacturedAt
             };
 

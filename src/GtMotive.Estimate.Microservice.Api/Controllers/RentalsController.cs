@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using GtMotive.Estimate.Microservice.Api.Models.Rentals;
@@ -20,7 +21,8 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
             var command = new RentAVehicleCommand()
             {
                 VehicleId = request.VehicleId,
-                CustomerId = request.UserId
+                CustomerId = request.UserId,
+                StartingAt = DateTimeOffset.UtcNow
             };
 
             var rental = await sender.Send(command, HttpContext.RequestAborted);
@@ -31,9 +33,23 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
         public async Task<ActionResult<IEnumerable<RentalDto>>> Get(
             [NotNull] ISender sender)
         {
-            var query = new GetRentalsRequest();
+            var query = new GetActiveRentalsRequest();
             var rentals = await sender.Send(query, HttpContext.RequestAborted);
             return Ok(rentals);
+        }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete(
+            [NotNull] ISender sender,
+            [NotNull][FromRoute] Guid id)
+        {
+            var command = new ReturnAVehicleCommand()
+            {
+                Id = id
+            };
+
+            await sender.Send(command, HttpContext.RequestAborted);
+            return NoContent();
         }
     }
 }

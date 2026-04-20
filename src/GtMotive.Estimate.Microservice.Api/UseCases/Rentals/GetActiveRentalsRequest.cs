@@ -4,7 +4,7 @@ using MediatR;
 
 namespace GtMotive.Estimate.Microservice.Api.UseCases.Rentals
 {
-    public class GetRentalsRequest : IRequest<IEnumerable<RentalDto>>
+    public class GetActiveRentalsRequest : IRequest<IEnumerable<RentalDto>>
     {
     }
 }

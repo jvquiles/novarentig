@@ -8,6 +8,10 @@ namespace GtMotive.Estimate.Microservice.Api.Models.Rentals
 
         public Guid VehicleId { get; set; }
 
-        public Guid UserId { get; set; }
+        public Guid CustomerId { get; set; }
+
+        public DateTimeOffset StartingAt { get; set; }
+
+        public DateTimeOffset? EndedAt { get; set; }
     }
 }

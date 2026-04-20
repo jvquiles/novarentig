@@ -39,7 +39,7 @@ namespace GtMotive.Estimate.Microservice.UnitTests.Entities
             var manufacturedAt = DateTimeOffset.Now.AddYears(-3);
             var vehicle = new Vehicle(vin, manufacturedAt);
             Assert.NotNull(vehicle);
-            Assert.Equal(vin, vehicle.VIN);
+            Assert.Equal(vin, vehicle.Vin);
             Assert.Equal(manufacturedAt, vehicle.ManufacturedAt);
         }
     }
