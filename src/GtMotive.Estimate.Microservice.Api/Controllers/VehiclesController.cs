@@ -22,7 +22,7 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
                 ManufacturedAt = request.ManufacturedAt
             };
 
-            var vehicle = await sender.Send(command);
+            var vehicle = await sender.Send(command, HttpContext.RequestAborted);
             return CreatedAtAction(nameof(Get), new { id = vehicle.Id }, vehicle);
         }
 
@@ -31,7 +31,7 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
             [NotNull] ISender sender)
         {
             var query = new GetVehiclesRequest();
-            var vehicles = await sender.Send(query);
+            var vehicles = await sender.Send(query, HttpContext.RequestAborted);
             return Ok(vehicles);
         }
     }

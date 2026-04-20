@@ -3,7 +3,7 @@
 namespace GtMotive.Estimate.Microservice.Domain.Entities
 {
     /// <summary>
-    /// Represents a vehicle with a unique identifier, name, and manufacturing date.
+    /// Represents a vehicle with a unique identifier, vin, and manufacturing date.
     /// </summary>
     public class Vehicle
     {

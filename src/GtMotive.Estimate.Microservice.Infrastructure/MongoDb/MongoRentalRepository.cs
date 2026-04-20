@@ -11,34 +11,34 @@ using MongoDB.Driver;
 
 namespace GtMotive.Estimate.Microservice.Infrastructure.MongoDb
 {
-    public class MongoVehicleRepository : IVehicleRepository
+    public class MongoRentalRepository : IRentalRepository
     {
-        private readonly IMongoCollection<Vehicle> _collection;
+        private readonly IMongoCollection<Rental> _collection;
 
-        public MongoVehicleRepository([NotNull] MongoService mongoService, [NotNull] IOptions<MongoDbSettings> options)
+        public MongoRentalRepository([NotNull] MongoService mongoService, [NotNull] IOptions<MongoDbSettings> options)
         {
-            if (!BsonClassMap.IsClassMapRegistered(typeof(Vehicle)))
+            if (!BsonClassMap.IsClassMapRegistered(typeof(Rental)))
             {
-                BsonClassMap.RegisterClassMap<Vehicle>(cm =>
+                BsonClassMap.RegisterClassMap<Rental>(cm =>
                 {
                     cm.AutoMap();
-                    cm.MapIdProperty(v => v.Id);
+                    cm.MapIdProperty(r => r.Id);
                 });
             }
 
             var database = mongoService.MongoClient.GetDatabase(options.Value.MongoDbDatabaseName);
-            _collection = database.GetCollection<Vehicle>("vehicles");
+            _collection = database.GetCollection<Rental>("rentals");
         }
 
-        public Task Add(Vehicle vehicle, CancellationToken cancellationToken)
+        public Task Add(Rental rental, CancellationToken cancellationToken)
         {
-            return _collection.InsertOneAsync(vehicle, cancellationToken: cancellationToken);
+            return _collection.InsertOneAsync(rental, cancellationToken: cancellationToken);
         }
 
-        public async Task<IEnumerable<Vehicle>> GetAll(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Rental>> GetAll(CancellationToken cancellationToken)
         {
             var vehicles = await _collection
-                .Find(v => v.ManufacturedAt > System.DateTimeOffset.Now.AddYears(-5))
+                .Find(v => true)
                 .ToListAsync(cancellationToken);
             return vehicles.AsReadOnly();
         }
