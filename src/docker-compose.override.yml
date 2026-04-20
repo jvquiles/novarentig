@@ -1,0 +1,24 @@
+services:
+  gtmotive.estimate.microservice.host:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      # MongoDB settings passed as environment variables to be read by the application configuration
+      # These map to the 'MongoDb' configuration section (e.g. MongoDb:ConnectionString)
+      # For credentials or non-default connection strings, prefer supplying a .env or CI secret
+      - MongoDb__ConnectionString=${MONGODB_CONNECTIONSTRING:-mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/${MONGO_DB_NAME}?authSource=admin}
+      - MongoDb__MongoDbDatabaseName=${MONGO_DB_NAME:-novarenting}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME:-mongo}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD:-mongo}
+    ports:
+      - "8080"
+      - "8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  mongo:
+    ports:
+      - "27017:27017"

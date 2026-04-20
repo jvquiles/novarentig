@@ -4,7 +4,8 @@ using Xunit;
 namespace GtMotive.Estimate.Microservice.FunctionalTests.Infrastructure
 {
     [Collection(TestCollections.Functional)]
-    internal abstract class FunctionalTestBase(CompositionRootTestFixture fixture) : IAsyncLifetime
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Maintainability", "CA1515:Considere la posibilidad de hacer que los tipos públicos sean internos", Justification = "<pendiente>")]
+    public abstract class FunctionalTestBase(CompositionRootTestFixture fixture) : IAsyncLifetime
     {
         public const int QueueWaitingTimeInMilliseconds = 1000;
 
