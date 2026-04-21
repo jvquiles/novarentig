@@ -6,7 +6,7 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases.Vehicles
 {
     public class AddVehicleCommand : IRequest<VehicleDto>
     {
-        public string VIN { get; init; }
+        public string Vin { get; init; }
 
         public DateTimeOffset ManufacturedAt { get; init; }
     }

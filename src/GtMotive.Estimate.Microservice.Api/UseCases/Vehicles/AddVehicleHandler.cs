@@ -20,7 +20,7 @@ namespace GtMotive.Estimate.Microservice.ApplicationCore.UseCases.Vehicles
             CancellationToken cancellationToken)
         {
             var vehicle = new Vehicle(
-                request.VIN,
+                request.Vin,
                 request.ManufacturedAt);
 
             await repository.Add(vehicle, cancellationToken);

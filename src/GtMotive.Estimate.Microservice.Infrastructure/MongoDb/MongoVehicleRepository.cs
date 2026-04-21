@@ -37,7 +37,9 @@ namespace GtMotive.Estimate.Microservice.Infrastructure.MongoDb
 
         public async Task<IEnumerable<Vehicle>> GetAll(CancellationToken cancellationToken)
         {
-            var vehicles = await _collection.Find(v => v.ManufacturedAt > System.DateTimeOffset.Now.AddYears(-5)).ToListAsync(cancellationToken);
+            var vehicles = await _collection
+                .Find(v => v.ManufacturedAt > System.DateTimeOffset.Now.AddYears(-5))
+                .ToListAsync(cancellationToken);
             return vehicles.AsReadOnly();
         }
     }

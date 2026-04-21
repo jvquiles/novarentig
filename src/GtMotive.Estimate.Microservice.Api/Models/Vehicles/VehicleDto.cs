@@ -6,7 +6,7 @@ namespace GtMotive.Estimate.Microservice.Api.Models.Vehicles
     {
         public Guid Id { get; set; }
 
-        public string VIN { get; set; } = string.Empty;
+        public string Vin { get; set; }
 
         public DateTimeOffset ManufacturedAt { get; set; }
     }
