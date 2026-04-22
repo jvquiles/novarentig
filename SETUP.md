@@ -68,8 +68,9 @@ https://localhost:xxxx
 ### 1. Create a `.env` file
 
 ```env
-MongoDb__ConnectionString=mongodb://mongo:mongo@mongo:27017/novarenting?authSource=admin
-MongoDb__MongoDbDatabaseName=novarenting
+MONGO_INITDB_ROOT_USERNAME=mongo
+MONGO_INITDB_ROOT_PASSWORD=mongo
+MONGO_DB_NAME=novarenting
 ```
 
 ---
