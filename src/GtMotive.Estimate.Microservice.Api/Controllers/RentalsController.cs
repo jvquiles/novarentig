@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using AutoMapper;
 using GtMotive.Estimate.Microservice.Api.Models.Rentals;
 using GtMotive.Estimate.Microservice.Api.UseCases.Rentals;
 using MediatR;
@@ -16,6 +17,7 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<RentalDto>> Create(
             [NotNull] ISender sender,
+            [NotNull] IMapper mapper,
             [FromBody][NotNull] CreateRentalDto request)
         {
             var command = new RentAVehicleCommand()
@@ -26,16 +28,17 @@ namespace GtMotive.Estimate.Microservice.Api.Controllers
             };
 
             var rental = await sender.Send(command, HttpContext.RequestAborted);
-            return CreatedAtAction(nameof(Get), new { id = rental.Id }, rental);
+            return CreatedAtAction(nameof(Get), new { id = rental.Id }, mapper.Map<RentalDto>(rental));
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RentalDto>>> Get(
-            [NotNull] ISender sender)
+            [NotNull] ISender sender,
+            [NotNull] IMapper mapper)
         {
             var query = new GetActiveRentalsRequest();
             var rentals = await sender.Send(query, HttpContext.RequestAborted);
-            return Ok(rentals);
+            return Ok(mapper.Map<IEnumerable<RentalDto>>(rentals));
         }
 
         [HttpDelete("{id:guid}")]
