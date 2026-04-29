@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using GtMotive.Estimate.Microservice.Api.Models.Rentals;
-using GtMotive.Estimate.Microservice.Domain.Entities;
+using GtMotive.Estimate.Microservice.Domain.ValueObjects;
 
 namespace GtMotive.Estimate.Microservice.Api.Presenters
 {
@@ -9,12 +9,9 @@ namespace GtMotive.Estimate.Microservice.Api.Presenters
         public RentalsProfile()
         {
             CreateMap<Rental, RentalDto>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.CustomerId))
-                .ForMember(dest => dest.VehicleId, opt => opt.MapFrom(src => src.VehicleId));
-
-            CreateMap<RentalDto, Rental>()
-                .ConstructUsing(dto => new Rental(dto.Id, dto.CustomerId, dto.VehicleId, dto.StartingAt, dto.EndedAt));
+                .ForMember(dest => dest.VehicleId, opt => opt.MapFrom(src => src.VehicleId))
+                .ForMember(dest => dest.EndedAt, opt => opt.MapFrom(src => src.EndedAt));
         }
     }
 }

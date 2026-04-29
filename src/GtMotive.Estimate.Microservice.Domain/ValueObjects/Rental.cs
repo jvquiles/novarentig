@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GtMotive.Estimate.Microservice.Domain.Entities
+namespace GtMotive.Estimate.Microservice.Domain.ValueObjects
 {
     /// <summary>
     /// Represents a rental record, including identifiers for the rental, vehicle, and customer.
@@ -8,23 +8,14 @@ namespace GtMotive.Estimate.Microservice.Domain.Entities
     /// <remarks>
     /// Initializes a new instance of the <see cref="Rental"/> class.
     /// </remarks>
-    /// <param name="id">The unique identifier for the rental.</param>
     /// <param name="customerId">The unique identifier for the customer.</param>
     /// <param name="vehicleId">The unique identifier for the vehicle.</param>
     /// <param name="startingAt">The start date and time of the rental.</param>
-    /// <param name="endedAt">The end date and time of the rental.</param>
     public class Rental(
-        Guid id,
         Guid customerId,
         Guid vehicleId,
-        DateTimeOffset startingAt,
-        DateTimeOffset? endedAt = null)
+        DateTimeOffset startingAt)
     {
-        /// <summary>
-        /// Gets the unique identifier for the entity.
-        /// </summary>
-        public Guid Id { get; init; } = id;
-
         /// <summary>
         /// Gets the unique identifier for the vehicle.
         /// </summary>
@@ -43,16 +34,20 @@ namespace GtMotive.Estimate.Microservice.Domain.Entities
         /// <summary>
         /// Gets the date and time when the operation or event ended.
         /// </summary>
-        public DateTimeOffset? EndedAt { get; private set; } = endedAt;
+        public DateTimeOffset? EndedAt { get; private set; }
 
         /// <summary>
-        /// Marks the rental as finished by recording the current UTC time as the end time.
+        /// Sets the end date and time of the rental, ensuring that it cannot be set to a value before the starting date and time.
         /// </summary>
-        /// <remarks>Call this method to indicate that the rental period has ended. The end time is set to
-        /// the moment this method is called, using Coordinated Universal Time (UTC).</remarks>
-        public void FinishRental()
+        /// <param name="endedAt">The end date and time of the rental.</param>
+        internal void SentEnding(DateTimeOffset endedAt)
         {
-            EndedAt = DateTimeOffset.UtcNow;
+            if (endedAt < StartingAt)
+            {
+                throw new DomainException("Cannot end a rental before it started");
+            }
+
+            EndedAt = endedAt;
         }
     }
 }
