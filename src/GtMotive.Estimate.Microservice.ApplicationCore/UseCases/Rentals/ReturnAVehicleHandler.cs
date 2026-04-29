@@ -10,9 +10,8 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases.Rentals
     /// <summary>
     /// Handles the return of a rented vehicle. It retrieves the rental information from the repository, marks the rental as finished, and updates the repository with the new state of the rental.
     /// </summary>
-    /// <param name="repository">The rental repository.</param>
     public class ReturnAVehicleHandler(
-        IRentalRepository repository)
+        IVehicleRepository repository)
         : IRequestHandler<ReturnAVehicleCommand>
     {
         /// <summary>
@@ -26,10 +25,10 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases.Rentals
             [NotNull] ReturnAVehicleCommand request,
             CancellationToken cancellationToken)
         {
-            var rental = await repository.GetById(request.Id)
-                ?? throw new ArgumentException($"Rental with id {request.Id} not found");
-            rental.FinishRental();
-            await repository.Update(rental);
+            var vehicle = await repository.GetById(request.VehicleId, cancellationToken)
+                ?? throw new ArgumentException($"Vehicle with id {request.VehicleId} not found");
+            vehicle.FinishRental();
+            await repository.Save(vehicle, cancellationToken);
             return Unit.Value;
         }
     }

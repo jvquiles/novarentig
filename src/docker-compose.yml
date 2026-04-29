@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   gtmotive.estimate.microservice.host:
     image: ${DOCKER_REGISTRY-}gtmotiveestimatemicroservicehost

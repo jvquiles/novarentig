@@ -11,6 +11,6 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases.Rentals
         /// <summary>
         /// Gets the unique identifier of the rental that is being returned. This ID is used to locate the rental record in the system and update its status to reflect the return of the vehicle.
         /// </summary>
-        public Guid Id { get; init; }
+        public Guid VehicleId { get; init; }
     }
 }

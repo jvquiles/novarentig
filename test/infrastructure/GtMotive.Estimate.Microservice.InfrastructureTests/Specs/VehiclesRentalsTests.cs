@@ -9,7 +9,7 @@ using Xunit;
 namespace GtMotive.Estimate.Microservice.InfrastructureTests.Specs
 {
     [CollectionDefinition(nameof(TestCollections))]
-    public class RentalsTests(GenericInfrastructureTestServerFixture genericInfrastructureTestServerFixture)
+    public class VehiclesRentalsTests(GenericInfrastructureTestServerFixture genericInfrastructureTestServerFixture)
         : IClassFixture<GenericInfrastructureTestServerFixture>
     {
         [Fact]
@@ -24,7 +24,7 @@ namespace GtMotive.Estimate.Microservice.InfrastructureTests.Specs
                 "application/json");
 
             await Assert.ThrowsAsync<InvalidOperationException>(async () =>
-                await client.PostAsync(new Uri("api/Rentals", UriKind.Relative), content));
+                await client.PostAsync(new Uri($"api/Vehicles/{Guid.CreateVersion7()}/rentals", UriKind.Relative), content));
         }
     }
 }

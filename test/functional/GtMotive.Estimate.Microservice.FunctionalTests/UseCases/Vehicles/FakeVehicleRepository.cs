@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,9 +21,24 @@ namespace GtMotive.Estimate.Microservice.FunctionalTests.UseCases.Vehicles
                 return Task.CompletedTask;
             }
 
+            public Task<bool> CustomerHasRentedAVehicleDuring(Guid customerId, DateTimeOffset startingAt, CancellationToken cancellationToken)
+            {
+                throw new NotImplementedException();
+            }
+
             public Task<IEnumerable<Vehicle>> GetAll(CancellationToken cancellationToken)
             {
                 return Task.FromResult(_store.AsEnumerable());
+            }
+
+            public Task<Vehicle> GetById(Guid vehicleId, CancellationToken cancellation)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<Vehicle> Save(Vehicle vehicle, CancellationToken cancellationToken)
+            {
+                throw new NotImplementedException();
             }
         }
     }

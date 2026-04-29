@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,12 +36,39 @@ namespace GtMotive.Estimate.Microservice.Infrastructure.MongoDb
             return _collection.InsertOneAsync(vehicle, cancellationToken: cancellationToken);
         }
 
+        public Task<bool> CustomerHasRentedAVehicleDuring(Guid customerId, DateTimeOffset startingAt, CancellationToken cancellationToken)
+        {
+            var filter =
+                Builders<Vehicle>.Filter.ElemMatch(
+                    v => v.Rentals,
+                    r => r.CustomerId == customerId &&
+                         r.StartingAt <= startingAt &&
+                         (!r.EndedAt.HasValue || startingAt <= r.EndedAt.Value));
+
+            return _collection.Find(filter).AnyAsync(cancellationToken);
+        }
+
         public async Task<IEnumerable<Vehicle>> GetAll(CancellationToken cancellationToken)
         {
             var vehicles = await _collection
-                .Find(v => v.ManufacturedAt > System.DateTimeOffset.Now.AddYears(-5))
+                .Find(v => v.ManufacturedAt > DateTimeOffset.Now.AddYears(-5))
                 .ToListAsync(cancellationToken);
             return vehicles.AsReadOnly();
+        }
+
+        public Task<Vehicle> GetById(Guid vehicleId, CancellationToken cancellation)
+        {
+            return _collection.Find(v => v.Id == vehicleId)
+                .FirstOrDefaultAsync(cancellation);
+        }
+
+        public async Task<Vehicle> Save(Vehicle vehicle, CancellationToken cancellationToken)
+        {
+            await _collection.ReplaceOneAsync(
+                v => v.Id == vehicle.Id,
+                vehicle,
+                cancellationToken: cancellationToken);
+            return vehicle;
         }
     }
 }

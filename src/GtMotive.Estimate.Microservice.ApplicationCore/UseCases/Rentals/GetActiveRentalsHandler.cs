@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using GtMotive.Estimate.Microservice.Domain.Entities;
 using GtMotive.Estimate.Microservice.Domain.Interfaces;
+using GtMotive.Estimate.Microservice.Domain.ValueObjects;
 using MediatR;
 
 namespace GtMotive.Estimate.Microservice.Api.UseCases.Rentals
@@ -12,7 +13,7 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases.Rentals
     /// </summary>
     /// <param name="repository">The rental repository.</param>
     public class GetActiveRentalsHandler(
-        IRentalRepository repository)
+        IVehicleRepository repository)
         : IRequestHandler<GetActiveRentalsRequest, IEnumerable<Rental>>
     {
         /// <summary>
@@ -25,8 +26,8 @@ namespace GtMotive.Estimate.Microservice.Api.UseCases.Rentals
             GetActiveRentalsRequest request,
             CancellationToken cancellationToken)
         {
-            var rentals = await repository.GetAllActive(cancellationToken);
-            return rentals;
+            var vehicles = await repository.GetAll(cancellationToken);
+            return vehicles.SelectMany(x => x.Rentals);
         }
     }
 }

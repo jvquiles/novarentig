@@ -1,5 +1,5 @@
 ﻿using System;
-using GtMotive.Estimate.Microservice.Domain.Entities;
+using GtMotive.Estimate.Microservice.Domain.ValueObjects;
 using MediatR;
 
 namespace GtMotive.Estimate.Microservice.Api.UseCases.Rentals
